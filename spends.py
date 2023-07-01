@@ -186,11 +186,7 @@ def history():
 
             labels = labels_for_pie
             sizes = numbers_for_pie
-            #colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink", "brown", "gray", "black",
-            #          "cyan", "magenta", "teal", "olive", "navy", "maroon", "lime", "aqua", "silver", "gold", "indigo",
-            #          "coral", "violet", "turquoise", "salmon", "sienna", "orchid", "slategray", "tomato", "lavender"]
 
-            # ax.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90)
             ax.bar(labels, sizes)
 
             canvas = FigureCanvasTkAgg(fig, master=new_window)
