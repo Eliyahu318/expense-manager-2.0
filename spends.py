@@ -3,7 +3,6 @@ from incomes import *
 
 DEFAULT_SPENDS = [0, None]
 DEFAULT_INCOMES = 0
-SYSTEM_DATA = ""
 
 
 def add_spend(event=None):
@@ -11,11 +10,11 @@ def add_spend(event=None):
     current_date_str = current_date.strftime("%d/%m/%y-%H:%M:%S")
     category = add_category_choose.get() + '#'[1:]
     expense = [int(add_spend_entry.get().split("#")[0]), category]
-    with open("file_spend.json", "r") as data_fie:
-        data = json.load(data_fie)
+    with open("file_spend.json", "r") as data_file:
+        data = json.load(data_file)
         data["spends"][current_date_str] = expense
-        with open("file_spend.json", "w") as file:
-            json.dump(data, file, indent=4)
+        with open("file_spend.json", "w") as data_file:
+            json.dump(data, data_file, indent=4)
         update_spending()
 
 
@@ -32,7 +31,6 @@ def delete_last_add_spend():
 
 
 def update_spending():
-    global SYSTEM_DATA
     try:
         with open("file_spend.json", "r") as data_file:
             data = json.load(data_file)["spends"].items()
