@@ -6,7 +6,7 @@ DEFAULT_INCOMES = 0
 SYSTEM_DATA = ""
 
 
-def add(event=None):
+def add_spend(event=None):
     current_date = datetime.datetime.now()
     current_date_str = current_date.strftime("%d/%m/%y-%H:%M:%S")
     category = add_category_choose.get() + '#'[1:]
@@ -232,7 +232,7 @@ add_spend_entry.focus()
 add_category_choose = Entry(width=13, font=("Normal", 10, "bold"))
 
 # Buttons
-add_button = Button(text="הוסף", font=("Normal", 10, "bold"), command=add, width=12, bg="gold")
+add_button = Button(text="הוסף", font=("Normal", 10, "bold"), command=add_spend, width=12, bg="gold")
 
 delete_button = Button(text="מחק", font=("Normal", 10, "bold"), command=delete_last_add, width=12, bg="gold")
 

@@ -60,8 +60,8 @@ history_button.grid(row=10, column=1, pady=(50, 5))
 reset_button.grid(row=11, column=1, pady=(0, 5))
 
 
-add_spend_entry.bind("<Return>", add)
-add_category_choose.bind("<Return>", add)
+add_spend_entry.bind("<Return>", add_spend)
+add_category_choose.bind("<Return>", add_spend)
 add_income_entry.bind("<Return>", add_incomes)
 
 
