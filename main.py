@@ -1,4 +1,5 @@
 from spends import *
+from incomes import *
 
 
 def expired():
@@ -70,7 +71,6 @@ def main():
     update_incomes()
     expired()
     root.mainloop()
-    # create_desktop_shortcut()
 
 
 if __name__ == "__main__":

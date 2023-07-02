@@ -1,6 +1,5 @@
 import json
-from tkinter import *
-from tkinter import messagebox
+from tkinter import Tk, Label, Entry, Button, END, messagebox
 import datetime
 
 
@@ -15,24 +14,28 @@ def add_incomes(event=None):
     current_date = datetime.datetime.now()
     current_date_str = current_date.strftime("%d/%m/%y-%H:%M:%S")
     income = int(add_income_entry.get())
-    with open("file_spend.json", "r") as data_fie:
+    with open("file_spend.json", "r+") as data_fie:
         data = json.load(data_fie)
         data["incomes"][current_date_str] = income
-        with open("file_spend.json", "w") as file:
-            json.dump(data, file, indent=4)
-        update_incomes()
+        # with open("file_spend.json", "w") as file:
+        data_fie.seek(0)
+        data_fie.truncate()
+        json.dump(data, data_fie, indent=4)
+    update_incomes()
 
 
 def delete_last_add_income():
-    with open("file_spend.json", "r") as data_file:
+    with open("file_spend.json", "r+") as data_file:
         data = json.load(data_file)
         if len(data["incomes"]) > 1:  # 2 and LAST_MONTH not in data or len(data) > 3:
             data["incomes"].popitem()
         else:
             messagebox.showinfo(title="שגיאה", message="אין הכנסות למחוק")
-        with open("file_spend.json", "w") as file:
-            json.dump(data, file, indent=4)
-        update_incomes()
+        # with open("file_spend.json", "w") as file:
+        data_file.seek(0)
+        data_file.truncate()
+        json.dump(data, data_file, indent=4)
+    update_incomes()
 
 
 def update_incomes():

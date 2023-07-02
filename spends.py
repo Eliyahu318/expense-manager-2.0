@@ -1,8 +1,12 @@
 import base64
-from incomes import *
+import datetime
+import json
+from tkinter import Label, Entry, Button, END, Toplevel, messagebox, W
+from incomes import root, balance_calculate, update_incomes
 
 DEFAULT_SPENDS = [0, None]
 DEFAULT_INCOMES = 0
+YELLOW = "#f7f5dd"
 
 
 def add_spend(event=None):
@@ -10,29 +14,33 @@ def add_spend(event=None):
     current_date_str = current_date.strftime("%d/%m/%y-%H:%M:%S")
     category = add_category_choose.get() + '#'[1:]
     expense = [int(add_spend_entry.get().split("#")[0]), category]
-    with open("file_spend.json", "r") as data_file:
-        data = json.load(data_file)
+    with open("file_spend.json", "r+") as file:
+        data = json.load(file)
         data["spends"][current_date_str] = expense
-        with open("file_spend.json", "w") as data_file:
-            json.dump(data, data_file, indent=4)
-        update_spending()
+        file.seek(0)
+        file.truncate()
+        json.dump(data, file, indent=4)
+
+    update_spending()
 
 
 def delete_last_add_spend():
-    with open("file_spend.json", "r") as data_file:
-        data = json.load(data_file)
+    with open("file_spend.json", "r+") as file:
+        data = json.load(file)
         if len(data["spends"]) > 1:
             data["spends"].popitem()
         else:
             messagebox.showinfo(title="שגיאה", message="אין הוצאות למחוק")
-        with open("file_spend.json", "w") as file:
-            json.dump(data, file, indent=4)
-        update_spending()
+        # with open("file_spend.json", "w") as file:
+        file.seek(0)
+        file.truncate()
+        json.dump(data, file, indent=4)
+    update_spending()
 
 
 def update_spending():
     try:
-        with open("file_spend.json", "r") as data_file:
+        with open("file_spend.json", "r+") as data_file:
             data = json.load(data_file)["spends"].items()
             spend = sum([value[0] for key, value in data])
     except FileNotFoundError:
@@ -64,11 +72,13 @@ def delete_choosing_history_label(title, content, row, column, buttons_list, lab
         buttons_list (list): A list containing the buttons.
         labels_list (list): A list containing the labels.
     """
-    with open("file_spend.json", "r") as data_file:
+    with open("file_spend.json", "r+") as data_file:
         data = json.load(data_file)
         del data[title][content]
-        with open("file_spend.json", "w") as file:
-            json.dump(data, file, indent=4)
+        # with open("file_spend.json", "w") as file:
+        data_file.seek(0)
+        data_file.truncate()
+        json.dump(data, data_file, indent=4)
 
     row = int(row)
     column = int(column)
@@ -159,8 +169,6 @@ def history():
         def create_pie_graph():
             from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
             from matplotlib.figure import Figure
-            import matplotlib.pyplot as plt
-
             """
             Generate a pie chart representing the expense categories.
             """
@@ -204,14 +212,15 @@ def history():
 def reset_all():
     is_ok = messagebox.askokcancel(title="Reset", message="?אתה בטוח שאתה רוצה לאפס הכל")
     if is_ok:
-        with open("file_spend.json", "r") as data_file:
+        with open("file_spend.json", "r+") as data_file:
             dict_data = json.load(data_file)
             dict_data["incomes"] = {"default": DEFAULT_INCOMES}
             dict_data["spends"] = {"default": DEFAULT_SPENDS}
             current_month = datetime.datetime.now().strftime("%m/%y")
             dict_data["history"] = {current_month: balance_calculate()}
-        with open("file_spend.json", "w") as file:
-            json.dump(dict_data, file, indent=4)
+            data_file.seek(0)
+            data_file.truncate()
+            json.dump(dict_data, data_file, indent=4)
         update_incomes()
         update_spending()
 
