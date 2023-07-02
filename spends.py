@@ -180,7 +180,7 @@ def history():
                 else:
                     dict_category_expense[category] = expense
 
-            labels_for_pie = [category[::-1]for category, expense in dict_category_expense.items()]
+            labels_for_pie = [category[::-1] for category, expense in dict_category_expense.items()]
             numbers_for_pie = [expense for category, expense in dict_category_expense.items()]
 
             if len(labels_for_pie) < 7:
@@ -198,11 +198,14 @@ def history():
             canvas = FigureCanvasTkAgg(fig, master=new_window)
             canvas.get_tk_widget().grid(row=0, column=5, columnspan=3, rowspan=row_pie_button, sticky='nsew')
 
-            button_out = Button(master=canvas.get_tk_widget(), text="x", font=("Normal", 10, "bold"), highlightthickness=0)
-            button_out.configure(compound='center', command=lambda: canvas.get_tk_widget().grid_forget(), bg=YELLOW, fg="red")
+            button_out = Button(master=canvas.get_tk_widget(), text="x", font=("Normal", 10, "bold"),
+                                highlightthickness=0)
+            button_out.configure(compound='center', command=lambda: canvas.get_tk_widget().grid_forget(), bg=YELLOW,
+                                 fg="red")
             canvas.get_tk_widget().create_window(450, 30, window=button_out)
 
-        pie_button = Button(new_window, text="גרף ניתוח הוצאות", command=create_pie_graph, bg="gold", font=("Normal", 10, "bold"))
+        pie_button = Button(new_window, text="גרף ניתוח הוצאות", command=create_pie_graph, bg="gold",
+                            font=("Normal", 10, "bold"))
         row_pie_button = [len(x) for x in list_labels][0] + 5
         pie_button.grid(row=row_pie_button, column=1, columnspan=3, pady=30)
 
