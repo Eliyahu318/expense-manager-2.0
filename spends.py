@@ -19,7 +19,7 @@ def add_spend(event=None):
         update_spending()
 
 
-def delete_last_add():
+def delete_last_add_spend():
     with open("file_spend.json", "r") as data_file:
         data = json.load(data_file)
         if len(data["spends"]) > 1:
@@ -234,7 +234,7 @@ add_category_choose = Entry(width=13, font=("Normal", 10, "bold"))
 # Buttons
 add_button = Button(text="הוסף", font=("Normal", 10, "bold"), command=add_spend, width=12, bg="gold")
 
-delete_button = Button(text="מחק", font=("Normal", 10, "bold"), command=delete_last_add, width=12, bg="gold")
+delete_button = Button(text="מחק", font=("Normal", 10, "bold"), command=delete_last_add_spend, width=12, bg="gold")
 
 reset_button = Button(text="איפוס", font=("Normal", 10, "bold"), command=reset_all, width=7, bg="red")
 
