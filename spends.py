@@ -31,7 +31,6 @@ def delete_last_add_spend():
             data["spends"].popitem()
         else:
             messagebox.showinfo(title="שגיאה", message="אין הוצאות למחוק")
-        # with open("file_spend.json", "w") as file:
         file.seek(0)
         file.truncate()
         json.dump(data, file, indent=4)
