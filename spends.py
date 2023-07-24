@@ -13,7 +13,7 @@ def add_spend(event=None):
     current_date = datetime.datetime.now()
     current_date_str = current_date.strftime("%d/%m/%y-%H:%M:%S")
     category = add_category_choose.get() + '#'[1:]
-    expense = [int(add_spend_entry.get().split("#")[0]), category]
+    expense = [float(add_spend_entry.get().split("#")[0]), category]
     with open("file_spend.json", "r+") as file:
         data = json.load(file)
         data["spends"][current_date_str] = expense
@@ -52,8 +52,9 @@ def update_spending():
         with open("file_spend.json", "r") as data_file:
             data = json.load(data_file)["spends"].items()
             spend = sum([value[0] for key, value in data if key != "history"])
-    formatted_spend = "{:,.0f}".format(spend)  # Format spending with commas
-    sum_spends_label.config(text=formatted_spend)
+    if spend % 1 == 0:
+        spend = "{:,.0f}".format(spend)  # Format spending with commas
+    sum_spends_label.config(text=spend)
     add_spend_entry.delete(first=0, last=END)
     add_category_choose.delete(first=0, last=END)
     add_category_choose.insert(END, string="כללי")

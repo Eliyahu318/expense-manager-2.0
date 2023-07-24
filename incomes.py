@@ -13,7 +13,7 @@ root.config(bg=YELLOW, padx=70, pady=70, )
 def add_incomes(event=None):
     current_date = datetime.datetime.now()
     current_date_str = current_date.strftime("%d/%m/%y-%H:%M:%S")
-    income = int(add_income_entry.get())
+    income = float(add_income_entry.get())
     with open("file_spend.json", "r+") as data_fie:
         data = json.load(data_fie)
         data["incomes"][current_date_str] = income
@@ -41,9 +41,10 @@ def delete_last_add_income():
 def update_incomes():
     with open("file_spend.json", "r") as data_file:
         data = json.load(data_file)["incomes"].items()
-        incomes = sum([value for key, value in data])
-    formatted_income = "{:,.0f}".format(incomes)  # Format spending with commas
-    sum_income_label.config(text=formatted_income)
+        income = sum([value for key, value in data])
+    if income % 1 == 0:
+        income = "{:,.0f}".format(income)  # Format spending with commas
+    sum_income_label.config(text=income)
     add_income_entry.delete(first=0, last=END)
     balance_calculate()
 
@@ -58,8 +59,9 @@ def balance_calculate():
         balance_text_num.config(fg="red")
     else:
         balance_text_num.config(fg="green")
-    balance_format = "{:,.0f}".format(balance)
-    balance_text_num.config(text=balance_format)
+    if balance % 1 == 0:
+        balance = "{:,.0f}".format(balance)
+    balance_text_num.config(text=balance)
     return balance
 
 
