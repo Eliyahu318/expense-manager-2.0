@@ -116,9 +116,9 @@ def history():
             row = 0
             if column == 0:
                 translate_key_title = "הוצאות"
-            if column == 2:
+            elif column == 2:
                 translate_key_title = "הכנסות"
-            if column == 4:
+            else:
                 translate_key_title = "היסטוריה"
             label_title_history = Label(new_window, text=f"{translate_key_title}", bg=YELLOW,
                                         font=("Arial", 18, "bold"))
