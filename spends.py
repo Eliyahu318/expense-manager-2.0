@@ -13,7 +13,7 @@ def add_spend(event=None):
     current_date = datetime.datetime.now()
     current_date_str = current_date.strftime("%d/%m/%y-%H:%M:%S")
     category = add_category_choose.get() + '#'[1:]
-    expense = [float(add_spend_entry.get().split("#")[0]), category]
+    expense = [float(add_spend_entry.get()), category]
     with open("file_spend.json", "r+") as file:
         data = json.load(file)
         data["spends"][current_date_str] = expense
